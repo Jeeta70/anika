@@ -3,7 +3,7 @@ import Block from "./Block";
 import Button from "./Button";
 import Deleteblock from "./Deleteblock";
 const Sectionone = () => {
-  let checkedItem = [];
+  // let checkedItem = [];
 
   let myList = [
     {
@@ -18,11 +18,9 @@ const Sectionone = () => {
   const [deleteFruitList, setDeleteFruits] = useState([]);
   const [restoreFruits, setRestoreFruits] = useState([]);
   const [selectedBlock, setSelectedBlock] = useState(false);
-  // const [checkedItem, setcheckedItem] = useState([])
-  const [radio, setradio] = useState("")
-  // console.log(list);
-  console.log(checkedItem);
-  console.log(radio);
+  const [checkedItem, setcheckedItem] = useState([]);
+  const [radio, setradio] = useState("");
+
   const AddBlock = () => {
     if (list.length === 4) {
       setList([...list, { block: "Block E", fruits: [] }]);
@@ -39,9 +37,11 @@ const Sectionone = () => {
     // console.log(checkedItem, "-----tttt----")
     if (checkBoolean) {
       checkedItem.push(checkValue);
+      setcheckedItem([...checkedItem]);
     } else {
       const index = checkedItem.indexOf(checkValue);
       checkedItem.splice(index, 1);
+      setcheckedItem([...checkedItem]);
     }
   };
 
@@ -67,18 +67,44 @@ const Sectionone = () => {
     //       moveFromIndex = index;
     //     }
     //   });
-    //   debugger;
     //   if (moveFromIndex !== -1) {
     //     list[++moveFromIndex].fruits.push(item);
     //     setList([...list]);
-    //     debugger;
     //   }
     // });
 
-    // checkedItem = [];
+    // setcheckedItem([]);
 
-    console.log(checkedItem)
-    console.log(radio);
+    // console.log(checkedItem)
+    // console.log(radio);
+    // console.log(list);
+    if (radio === "") {
+      return alert("Select the block first");
+    }
+    checkedItem.forEach((checkedIte) => {
+      list.forEach((li, i) => {
+        const index = li.fruits.indexOf(checkedIte);
+        if (index !== -1) {
+          li.fruits.splice(index, 1);
+        }
+      });
+    });
+
+    // console.log(checkedItem);
+    // console.log(list);
+    // console.log(radio);
+
+    list.forEach((li) => {
+      // console.log(li)
+      if (li.block === radio) {
+        console.log(li);
+        li.fruits = [...li.fruits, ...checkedItem];
+      }
+    });
+    // console.log(list);
+    setList([...list]);
+    setcheckedItem([])
+    setradio("")
   };
 
   const handleBackwordBtn = () => {
@@ -98,7 +124,7 @@ const Sectionone = () => {
       }
     });
 
-    checkedItem = [];
+    setcheckedItem([]);
   };
 
   const handleRemoveButton = () => {
@@ -167,11 +193,10 @@ const Sectionone = () => {
     }
   };
 
-  const handleRadio = (e)=>{
-    setradio(e.target.value)
-  }
+  const handleRadio = (e) => {
+    setradio(e.target.value);
+  };
 
-  
   const handleCheckBox = (e) => {
     // let checkboxes = e.target.checked;
     // for (let i = 0; i < checkboxes.length; i++) {
@@ -189,7 +214,7 @@ const Sectionone = () => {
                 block={item.block}
                 checkbox={item.fruits}
                 checkFun={handleCheckItem}
-                handleRadio={handleRadio}
+                setradio={setradio}
               />
             </div>
           );

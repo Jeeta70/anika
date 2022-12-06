@@ -1,9 +1,8 @@
 import React from "react";
 
-const Block = ({ block, checkbox, checkFun, handleRadio }) => {
+const Block = ({ block, checkbox, checkFun, setradio }) => {
   return (
     <>
-     
       <div className="container p-3 d-flex mt-5">
         <div
           className="block_one p-1"
@@ -26,7 +25,12 @@ const Block = ({ block, checkbox, checkFun, handleRadio }) => {
             })}
         </div>
       </div>
-      <input type="radio" name="radio" value={block} onChange={(e)=>{handleRadio(e)}} />
+      <input
+        type="radio"
+        name="radio"
+        value={block}
+        onChange={(e) => setradio(e.target.value)}
+      />
     </>
   );
 };
